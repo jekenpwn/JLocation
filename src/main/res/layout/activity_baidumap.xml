@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--底部背景为百度地图-->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/mpv_showmap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    </com.baidu.mapapi.map.MapView>
+    <EditText
+        android:id="@+id/et_bdmap_search"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:background="@drawable/et_search_map"/>
+    <FrameLayout
+        android:id="@+id/fl_bdmap_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+    </FrameLayout>
+</RelativeLayout>
