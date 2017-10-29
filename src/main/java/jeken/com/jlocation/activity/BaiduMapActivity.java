@@ -1,7 +1,10 @@
 package jeken.com.jlocation.activity;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdate;
@@ -9,7 +12,10 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.navi.BaiduMapNavigation;
+import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
+import com.baidu.mapapi.search.sug.SuggestionResult;
+import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -19,18 +25,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import jeken.com.jlocation.R;
 import jeken.com.jlocation.event.LocationInfoEvent;
+import jeken.com.jlocation.view.SugSearchPopupWindow;
 
 /**
  * Created by Administrator on 2017-09-16.
  */
 
-public class BaiduMapActivity extends BaseActivity {
+public class BaiduMapActivity extends BaseActivity implements OnGetSuggestionResultListener, TextWatcher, SugSearchPopupWindow.SugPopItemClickListener {
 
     private MapView mMapView;
-
+    private EditText sugSearch;
     private BaiduMap mBaiduMap;
     // Restore previous Logitude and Latitude
     private static double  preLongitude = -1f;
@@ -38,10 +46,16 @@ public class BaiduMapActivity extends BaseActivity {
     private static double  nowLongitude = 39.915071f;
     private static double  nowLatitude = 116.403907f;
 
-    private BaiduMapNavigation bdNavi;
+//    private BaiduMapNavigation bdNavi;
+
+    private SuggestionSearch suggestionSearch;
+    private SugSearchPopupWindow sugSearchPopupWindow;
+
     @Override
     public void beforeSetContentView(Context context) {
         scriberRegister(this);
+        suggestionSearch =  SuggestionSearch.newInstance();
+        suggestionSearch.setOnGetSuggestionResultListener(this);
     }
 
     @Override
@@ -56,6 +70,13 @@ public class BaiduMapActivity extends BaseActivity {
         mMapView = (MapView) findViewById(R.id.mpv_showmap);
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
+
+        sugSearch = (EditText) findViewById(R.id.et_bdmap_search);
+
+        sugSearchPopupWindow = new SugSearchPopupWindow(context,R.layout.sug_rearch_popup);
+        sugSearchPopupWindow.initPopup();
+        sugSearchPopupWindow.setSugItemListener(this);
+        sugSearch.addTextChangedListener(this);
 
     }
 
@@ -178,4 +199,58 @@ public class BaiduMapActivity extends BaseActivity {
 
     }
 
+
+    /**
+     * The callback of SuggestionSearch, the suggestion information
+     * @param suggestionResult
+     */
+    @Override
+    public void onGetSuggestionResult(SuggestionResult suggestionResult) {
+        if (suggestionResult == null || suggestionResult.getAllSuggestions() == null) {
+            //未找到相关结果
+            Log.e("TAG","未找到相关结果");
+            return;
+        }else
+        {
+            List<SuggestionResult.SuggestionInfo> resl=suggestionResult.getAllSuggestions();
+            sugSearchPopupWindow.clearAllItem();
+            for(int i=0;i<resl.size();i++)
+            {
+                String addr = resl.get(i).city+resl.get(i).district+resl.get(i).key;
+                sugSearchPopupWindow.addItem(resl.get(i));
+                Log.e("result: ","city"+resl.get(i).city+" dis "+resl.get(i).district+"key "+resl.get(i).key);
+            }
+            sugSearchPopupWindow.showAsDropDown(sugSearch,0,0);
+        }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        suggestionSearch.requestSuggestion(new SuggestionSearchOption().city("中国").keyword(s.toString()));
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+    @Override
+    public void getAddr(String addr) {
+        if (sugSearch!=null){
+            sugSearch.setText(addr);
+        }
+        if (sugSearchPopupWindow!=null){
+            sugSearchPopupWindow.dismiss();
+        }
+    }
+
+    @Override
+    public void getLatLng(LatLng pt) {
+        Log.e("Tga",pt.latitude+","+pt.longitude);
+    }
 }

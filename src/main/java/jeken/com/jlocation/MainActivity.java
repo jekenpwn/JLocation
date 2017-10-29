@@ -1,5 +1,6 @@
 package jeken.com.jlocation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,7 +14,9 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 
 import java.util.List;
 
+import jeken.com.jlocation.activity.BaiduMapActivity;
 import jeken.com.jlocation.navi.NavInitManager;
+import jeken.com.jlocation.service.CoreSerivce;
 
 
 public class MainActivity extends AppCompatActivity implements OnGetSuggestionResultListener {
@@ -23,8 +26,8 @@ public class MainActivity extends AppCompatActivity implements OnGetSuggestionRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        startActivity(new Intent(this, BaiduMapActivity.class));
-//        startService(new Intent(this,CoreSerivce.class));
+        startActivity(new Intent(this, BaiduMapActivity.class));
+        startService(new Intent(this,CoreSerivce.class));
 
         NavInitManager.getInstance().initAll(this);
 

@@ -11,20 +11,28 @@ import java.util.LinkedList;
  * Created by jeken on 2017/10/25.
  */
 
-public class JBaseAdapter<T> extends BaseAdapter{
+public abstract class JBaseAdapter<T> extends BaseAdapter{
     private LinkedList<T> data;
     private Context mContext;
-    public JBaseAdapter(Context mContext){
+    public JBaseAdapter(Context mContext,LinkedList<T> data){
         this.mContext = mContext;
+        this.data = data;
     }
     @Override
     public int getCount() {
-        return 0;
+        if (data != null)
+            return data.size();
+        else
+            return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        //filter the unexpected condition
+        if (position < 0 ) return null;
+        if (data == null) return  null;
+        if (position>=data.size()) return null;
+        return data.get(position);
     }
 
     @Override
@@ -34,6 +42,17 @@ public class JBaseAdapter<T> extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        if (convertView == null){
+            if (setConverView() instanceof View){
+                convertView = (View) setConverView();
+            }else {
+                convertView = View.inflate(mContext, (Integer) setConverView(), null);
+            }
+        }
+        setViewHold(convertView,position);
+        return convertView;
     }
+
+    public abstract Object setConverView();
+    public abstract void setViewHold(View convertView,int position);
 }

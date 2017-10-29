@@ -3,6 +3,7 @@ package jeken.com.jlocation.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 /**
@@ -13,21 +14,31 @@ public abstract  class CommPopupWindow {
     private View view;
     private PopupWindow mPopupWindow;
     private Context mContext;
+    private int mLayoutRes;
 
-    public CommPopupWindow(Context mContext,int mLayoutRes,int w,int h){
-        view = LayoutInflater.from(mContext).inflate(mLayoutRes,null,false);
+    public CommPopupWindow(Context mContext,int mLayoutRes){
+        this.mContext = mContext;
+        this.mLayoutRes = mLayoutRes;
+
+    }
+    public void init(){
+        view = LayoutInflater.from(mContext).inflate(mLayoutRes,null);
         if (view != null){
             initView(view);
-            mPopupWindow = new PopupWindow(view,w,h);
+            mPopupWindow = new PopupWindow(mContext);
+            mPopupWindow.setContentView(view);
+            mPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+            mPopupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+
             if (mPopupWindow != null){
                 initWindow(mPopupWindow);
             }
         }
     }
-
     public abstract void initView(View view);
     public abstract void initWindow(PopupWindow mPopupWindow);
     public void showAsDropDown(View anchor, int xoff, int yoff) {
+        if (mPopupWindow == null) return;
         mPopupWindow.showAsDropDown(anchor, xoff, yoff);
     }
 
