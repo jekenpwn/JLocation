@@ -3,23 +3,17 @@ package jeken.com.jlocation;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
-import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 
-import java.util.List;
-
 import jeken.com.jlocation.activity.BaiduMapActivity;
 import jeken.com.jlocation.navi.NavInitManager;
-import jeken.com.jlocation.service.CoreSerivce;
 
 
-public class MainActivity extends AppCompatActivity implements OnGetSuggestionResultListener {
+public class MainActivity extends AppCompatActivity  {
 
     SuggestionSearch suggestionSearch;
     @Override
@@ -27,15 +21,11 @@ public class MainActivity extends AppCompatActivity implements OnGetSuggestionRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startActivity(new Intent(this, BaiduMapActivity.class));
-        startService(new Intent(this,CoreSerivce.class));
+
 
         NavInitManager.getInstance().initAll(this);
 
         SDKInitializer.initialize(getApplicationContext());
-
-        suggestionSearch = SuggestionSearch.newInstance();
-        suggestionSearch.setOnGetSuggestionResultListener(this);
-        suggestionSearch.requestSuggestion((new SuggestionSearchOption()).city("上海").keyword("同济大学"));
 
     }
 
@@ -77,20 +67,5 @@ public class MainActivity extends AppCompatActivity implements OnGetSuggestionRe
 
     }
 
-    @Override
-    public void onGetSuggestionResult(SuggestionResult suggestionResult) {
-        if (suggestionResult == null || suggestionResult.getAllSuggestions() == null) {
 
-            //未找到相关结果
-            Log.e("TAG","未找到相关结果");
-            return;
-        }else
-        {
-            List<SuggestionResult.SuggestionInfo> resl=suggestionResult.getAllSuggestions();
-            for(int i=0;i<resl.size();i++)
-            {
-                Log.e("result: ","city"+resl.get(i).city+" dis "+resl.get(i).district+"key "+resl.get(i).key);
-            }
-        }
-    }
 }

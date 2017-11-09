@@ -47,7 +47,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.BNDemoMainActivity"></activity>
-        <activity android:name=".activity.BaiduMapActivity">
+        <activity android:name=".activity.BaiduMapActivity"
+            >
         </activity>
 
         <service
@@ -63,11 +64,6 @@
             android:name=".service.CoreSerivce"
             android:enabled="true"
             android:exported="true" />
-
-        <activity
-            android:name=".Main2Activity"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
 
 
         <activity

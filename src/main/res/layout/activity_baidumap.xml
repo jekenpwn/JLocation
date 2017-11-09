@@ -18,11 +18,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/et_search_map"/>
-    <FrameLayout
-        android:id="@+id/fl_bdmap_bottom"
+    <!-- Popupwindown use as base pointer pull menus listview-->
+    <ListView
+        android:id="@+id/lv_map_searchlist"
+        android:layout_below="@+id/et_bdmap_search"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_bdmap_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         >
-    </FrameLayout>
+    </android.support.v4.view.ViewPager>
 </RelativeLayout>

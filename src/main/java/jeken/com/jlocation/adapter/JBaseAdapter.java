@@ -5,16 +5,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by jeken on 2017/10/25.
  */
 
 public abstract class JBaseAdapter<T> extends BaseAdapter{
-    private LinkedList<T> data;
+    private List<T> data;
     private Context mContext;
-    public JBaseAdapter(Context mContext,LinkedList<T> data){
+    public JBaseAdapter(Context mContext,List<T> data){
         this.mContext = mContext;
         this.data = data;
     }

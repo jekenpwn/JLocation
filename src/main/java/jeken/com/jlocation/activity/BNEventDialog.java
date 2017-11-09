@@ -1,5 +1,6 @@
 package jeken.com.jlocation.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,14 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import jeken.com.jlocation.R;
+import jeken.com.jlocation.navi.NavInitManager;
 
 
-public class BNEventDialog extends Dialog {
+public class BNEventDialog extends Dialog implements View.OnClickListener {
 
     private Context mContext;
     
@@ -37,7 +40,9 @@ public class BNEventDialog extends Dialog {
     private ImageView mEnlargeImg;
     
     private TextView mLocateTx;
-    
+
+    private Button btn_navistart;
+    private Button btn_naviend;
     public BNEventDialog(Context context) {
         super(context);
         mContext = context;
@@ -78,6 +83,12 @@ public class BNEventDialog extends Dialog {
         mEnlargeImg = (ImageView) layout.findViewById(R.id.enlarge_view_img);
         
         mLocateTx = (TextView) layout.findViewById(R.id.loacte_tx);
+        btn_navistart = (Button) layout.findViewById(R.id.navievent_startnavi);
+        btn_naviend = (Button) layout.findViewById(R.id.navievent_exitnavi);
+
+        btn_navistart.setOnClickListener(this);
+        btn_naviend.setOnClickListener(this);
+
     }
     
     public void updateLocateState(boolean hasLocate) {
@@ -151,6 +162,27 @@ public class BNEventDialog extends Dialog {
     public void updateRemainTime(String time) {
         if (mRemainTimeTx != null) {
             mRemainTimeTx.setText(time);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.navievent_startnavi:
+                this.dismiss();
+                this.cancel();
+                break;
+            case R.id.navievent_exitnavi:
+                killParent();
+                break;
+        }
+    }
+
+    private void killParent(){
+        for (Activity act: NavInitManager.activityList){
+            if (act instanceof BNDemoGuideActivity){
+                act.finish();
+            }
         }
     }
 }

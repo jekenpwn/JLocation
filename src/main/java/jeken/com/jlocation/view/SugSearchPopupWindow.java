@@ -74,10 +74,12 @@ public class SugSearchPopupWindow extends CommPopupWindow implements AdapterView
                         +data.get(position).key;
                 onItemClickListener.getAddr(addr);
                 onItemClickListener.getLatLng(data.get(position).pt);
+                onItemClickListener.success(true);
             }
     }
     public interface SugPopItemClickListener{
         public void getAddr(String addr);
         public void getLatLng(LatLng pt);
+        public void success(boolean isOk);
     }
 }
