@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/bdmap_driving"
+        android:icon="@drawable/nvi_driving"
+        app:showAsAction="always"
+        android:title="驾车"
+        />
+    <item
+        android:id="@+id/bdmp_bus"
+        android:icon="@drawable/nvi_bus"
+        app:showAsAction="always"
+        android:title="骑行"/>
+    <item
+        android:id="@+id/bdmap_biking"
+        android:icon="@drawable/nvi_biking"
+        app:showAsAction="always"
+        android:title="骑行"/>
+    <item
+        android:id="@+id/bdmap_walking"
+        android:icon="@drawable/nvi_walk"
+        app:showAsAction="always"
+        android:title="步行"/>
+
+</menu>
