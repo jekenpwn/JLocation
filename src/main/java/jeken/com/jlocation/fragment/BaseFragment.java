@@ -1,13 +1,13 @@
 package jeken.com.jlocation.fragment;
 
-import android.app.Fragment;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 /**
@@ -27,12 +27,12 @@ public abstract class BaseFragment extends Fragment {
             view = (View) getContentView();
         }
         x.view().inject(view);
-        initView();
+        initView(view);
         return view;
     }
 
     public abstract Object getContentView();
-    public abstract void initView();
+    public abstract void initView(View view);
 
     @Override
     public void onDestroy() {

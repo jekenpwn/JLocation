@@ -23,13 +23,15 @@ import java.util.List;
 
 import jeken.com.jlocation.activity.BNEventHandler;
 
-import static jeken.com.jlocation.activity.BNDemoMainActivity.ROUTE_PLAN_NODE;
+
 
 /**
  * Created by jeken on 2017/10/18.
  */
 
 public class NavInitManager {
+    public static String ROUTE_PLAN_NODE = "RoutePlanNode";
+
     private static NavInitManager navInitManager;
 
     private static final String APP_FOLDER_NAME = "JLocationPWN";
@@ -351,4 +353,12 @@ public class NavInitManager {
             return 1;
         }
     };
+
+    /**
+     * Clean all Driving navigation resource
+     */
+    public static void DrivingNavi_clean(){
+        navInitManager = null;
+
+    }
 }

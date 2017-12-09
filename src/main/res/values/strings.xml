@@ -2,7 +2,7 @@
     <string name="app_name">JLocation</string>
     <string name="title_activity_main2">Main2Activity</string>
 
-    <string name="sdk_name">Baidu Navigation SDK Demo</string>
+    <string name="sdk_name">JLocation</string>
     <string-array name="sdkapi_items">
         <item>关键字搜索</item>
         <item>周边搜索</item>

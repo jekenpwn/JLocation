@@ -8,6 +8,9 @@ public class LocationInfo {
 	private int userIndoorState;//�������ж� 1����
 	private String addr;//��ַ
 	private String locationDescribe;//��λ����
+	private String city;
+	private String where;
+
 	public int getLocType() {
 		return locType;
 	}
@@ -41,6 +44,23 @@ public class LocationInfo {
 	public String getLocationDescribe() {
 		return locationDescribe;
 	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getWhere() {
+		return where;
+	}
+
+	public void setWhere(String where) {
+		this.where = where;
+	}
+
 	public void setLocationDescribe(String locationDescribe) {
 		this.locationDescribe = locationDescribe;
 	}

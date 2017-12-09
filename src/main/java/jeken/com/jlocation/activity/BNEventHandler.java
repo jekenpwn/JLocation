@@ -12,7 +12,7 @@ import com.baidu.navisdk.adapter.BNaviCommonParams;
 public class BNEventHandler {
     
     private BNEventDialog mEventDialog = null;
-    
+
     private static class LazyLoader {
         private static BNEventHandler mInstance = new BNEventHandler();
     }

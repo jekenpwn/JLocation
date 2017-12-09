@@ -23,6 +23,8 @@ public class BDLocationListenerImpl implements BDLocationListener{
 		this.locationInfo.setUserIndoorState(dbLcn.getUserIndoorState());
 		this.locationInfo.setAddr(dbLcn.getAddrStr());
 		this.locationInfo.setLocationDescribe(dbLcn.getLocationDescribe());
+		this.locationInfo.setCity(dbLcn.getCity());
+		this.locationInfo.setWhere(dbLcn.getAddrStr());
 	    if(dbLcn.getLocType() == BDLocation.TypeServerError || 
 	       dbLcn.getLocType() == BDLocation.TypeNetWorkException ||
 	       dbLcn.getLocType() == BDLocation.TypeCriteriaException){

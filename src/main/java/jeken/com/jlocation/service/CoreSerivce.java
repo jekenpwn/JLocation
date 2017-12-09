@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.PowerManager;
-import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -25,13 +24,20 @@ public class CoreSerivce extends Service {
     private LocationInfo locationInfo;//Entity after getting location info
     private int counter = 0;//Checking if right
 
+    private static int START = 1;
+    private static int PAUSE = 2;
+
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what == 1){
-                Log.e("TAG","restart");
-                locationImpl.start();
+            if (msg.what == START){
+//                Log.e("TAG","restart");
+                if (locationImpl!=null)
+                   locationImpl.start();
+            }else if (msg.what == PAUSE){
+                if (locationImpl!=null)
+                    locationImpl.stop();
             }
         }
     };
@@ -89,23 +95,31 @@ public class CoreSerivce extends Service {
         locationImpl.setLocationOption(locationImpl.getDefaultLocationClientOption());
         locationImpl.start();
     }
+
+    public void locationRequest(int startTime,int stopTime){
+        if (handler==null) return;
+        if ((Math.abs(startTime-stopTime))<700) return;//|starttime - stoptime|>=700ms
+        if (startTime < 0 && stopTime < 0) return;
+        if (startTime <= 0){
+            handler.sendEmptyMessageDelayed(START,300);
+        }else if (stopTime <= 0){
+            handler.sendEmptyMessageDelayed(START,300);
+        }else {
+            handler.sendEmptyMessageDelayed(START,startTime);
+            handler.sendEmptyMessageDelayed(PAUSE,stopTime);
+        }
+    }
+
     private BDLocationCallback bdLocCallback = new BDLocationCallback() {
         @Override
         public void locationSuccess() {
             LocationInfoEvent event = new LocationInfoEvent();
             event.setLocationInfo(locationInfo);
             EventBus.getDefault().post(event);
-            if(locationInfo != null){
-                String addr = locationInfo.getAddr();
-                Log.e("TAG", "location"+addr);
-            }
-            if(counter>=10){
-                locationImpl.stop();
-                counter = 0;
-                handler.sendEmptyMessageDelayed(1,10000);
-            }else{
-                counter++;
-            }
+//            if(locationInfo != null){
+//                String addr = locationInfo.getAddr();
+//                Log.e("TAG", "location"+addr);
+//            }
         }
 
         @Override

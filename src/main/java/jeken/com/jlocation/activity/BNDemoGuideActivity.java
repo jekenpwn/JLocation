@@ -32,6 +32,7 @@ import jeken.com.jlocation.navi.NavInitManager;
  */
 public class BNDemoGuideActivity extends Activity {
 
+
     private final String TAG = BNDemoGuideActivity.class.getName();
     private BNRoutePlanNode mBNRoutePlanNode = null;
     private BaiduNaviCommonModule mBaiduNaviCommonModule = null;
@@ -76,7 +77,7 @@ public class BNDemoGuideActivity extends Activity {
         if (intent != null) {
             Bundle bundle = intent.getExtras();
             if (bundle != null) {
-                mBNRoutePlanNode = (BNRoutePlanNode) bundle.getSerializable(BNDemoMainActivity.ROUTE_PLAN_NODE);
+                mBNRoutePlanNode = (BNRoutePlanNode) bundle.getSerializable(NavInitManager.ROUTE_PLAN_NODE);
             }
         }
         //显示自定义图标
@@ -105,7 +106,6 @@ public class BNDemoGuideActivity extends Activity {
 
     protected void onPause() {
         super.onPause();
-        
         if(useCommonInterface) {
             if(mBaiduNaviCommonModule != null) {
                 mBaiduNaviCommonModule.onPause();
@@ -126,7 +126,7 @@ public class BNDemoGuideActivity extends Activity {
         } else {
             BNRouteGuideManager.getInstance().onDestroy();
         }
-        BNDemoMainActivity.activityList.remove(this);
+
         BNEventHandler.getInstance().disposeDialog();
     }
 
@@ -254,13 +254,14 @@ public class BNDemoGuideActivity extends Activity {
             if (actionType == 0) {
                 //导航到达目的地 自动退出
                 Log.i(TAG, "notifyOtherAction actionType = " + actionType + ",导航到达目的地！");
+                finish();
             }
 
             Log.i(TAG, "actionType:" + actionType + "arg1:" + arg1 + "arg2:" + arg2 + "obj:" + obj.toString());
         }
 
     };
-    
+
     private final static String RET_COMMON_MODULE = "module.ret";
     
     private interface RouteGuideModuleConstants {
